@@ -4,49 +4,42 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-  // private final WPI_TalonSRX leftLeader;
-  // private final WPI_TalonSRX leftFollower;
-  // private final WPI_TalonSRX rightLeader;
-  // private final WPI_TalonSRX rightFollower;
+  private final WPI_TalonSRX leftLeader;
+  private final WPI_TalonSRX leftFollower;
+  private final WPI_TalonSRX rightLeader;
+  private final WPI_TalonSRX rightFollower;
   
-  // private final DifferentialDrive drive;
+  private final DifferentialDrive drive;
 
-  // public Drivetrain() {
-  //   leftLeader = new WPI_TalonSRX(0, MotorType.kBrushed);
-  //   leftFollower = new WPI_TalonSRX(1, MotorType.kBrushed);
-  //   rightLeader = new WPI_TalonSRX(2, MotorType.kBrushed);
-  //   rightFollower = new WPI_TalonSRX(3, MotorType.kBrushed);
+  public Drivetrain() {
+    leftLeader = new WPI_TalonSRX(0);
+    leftFollower = new WPI_TalonSRX(1);
+    rightLeader = new WPI_TalonSRX(2);
+    rightFollower = new WPI_TalonSRX(3);
 
-  //   drive = new DifferentialDrive(leftLeader, rightLeader);
+    drive = new DifferentialDrive(leftLeader, rightLeader);
 
-  //   leftLeader.setCANTimeout(250);
-  //   rightLeader.setCANTimeout(250);
-  //   leftFollower.setCANTimeout(250);
-  //   rightFollower.setCANTimeout(250);
+    leftFollower.follow(leftLeader);
+    rightFollower.follow(rightLeader);
 
-  //   SparkMaxConfig config = new SparkMaxConfig();
-  //   config.voltageCompensation(12);
-  //   config.smartCurrentLimit(40);
+    leftLeader.setInverted(false);
+    rightLeader.setInverted(false);
+  }
 
-  //   config.follow(leftLeader);
-  //   leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  //   config.follow(rightLeader);
-  //   rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  public void arcadeDrive(double xSpeed, double zRotation) {
+    drive.arcadeDrive(xSpeed, zRotation);
+  }
 
-  //   config.disableFollowerMode();
-  //   rightLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-  //   config.inverted(true);
-  //   leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  // }
-
-  // public void arcadeDrive(double xSpeed, double zRotation) {
-  //   drive.arcadeDrive(xSpeed, zRotation);
-  // }
+  public void drive(double speed){
+    leftLeader.set(speed);
+    rightLeader.set(speed);
+  }
 
   @Override
   public void periodic() {

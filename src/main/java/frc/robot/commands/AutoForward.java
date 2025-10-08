@@ -4,42 +4,48 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Roller;
+import frc.robot.subsystems.Drivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Roll extends Command {
-  public DoubleSupplier forwardSpeed;
-  public DoubleSupplier reverseSpeed;
-  private final Roller roller;
-  /** Creates a new Roll. */
-  public Roll(DoubleSupplier forwardSpeed, DoubleSupplier reverseSpeed, Roller roller) {
+public class AutoForward extends Command {
+  private final Drivetrain drivetrain;
+  private final Double speed;
+  private final Double time;
+  private final Timer timer = new Timer();
+  /** Creates a new AutoForward. */
+  public AutoForward(Double speed, Double time, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.forwardSpeed = forwardSpeed;
-    this.reverseSpeed = reverseSpeed;
-    this.roller = roller;
-    addRequirements(this.roller);
+    this.drivetrain = drivetrain;
+    this.speed = speed;
+    this.time = time;
+    addRequirements(this.drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.reset();
+    timer.start();
+    drivetrain.drive(speed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    roller.runRoller(forwardSpeed.getAsDouble(), reverseSpeed.getAsDouble());
+    drivetrain.drive(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drivetrain.drive(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get() >= time;
   }
 }
