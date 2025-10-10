@@ -18,10 +18,10 @@ public class Drivetrain extends SubsystemBase {
   private final DifferentialDrive drive;
 
   public Drivetrain() {
-    leftLeader = new WPI_TalonSRX(0);
-    leftFollower = new WPI_TalonSRX(1);
-    rightLeader = new WPI_TalonSRX(2);
-    rightFollower = new WPI_TalonSRX(3);
+    leftLeader = new WPI_TalonSRX(5);
+    leftFollower = new WPI_TalonSRX(8);
+    rightLeader = new WPI_TalonSRX(4);
+    rightFollower = new WPI_TalonSRX(40);
 
     drive = new DifferentialDrive(leftLeader, rightLeader);
 
