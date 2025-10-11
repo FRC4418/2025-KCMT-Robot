@@ -23,6 +23,11 @@ public class Drivetrain extends SubsystemBase {
     rightLeader = new WPI_TalonSRX(4);
     rightFollower = new WPI_TalonSRX(40);
 
+    leftLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
+    leftFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
+    rightLeader.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
+    rightFollower.setNeutralMode(com.ctre.phoenix.motorcontrol.NeutralMode.Coast);
+
     drive = new DifferentialDrive(leftLeader, rightLeader);
 
     leftFollower.follow(leftLeader);
@@ -38,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void drive(double speed){
     leftLeader.set(speed);
-    rightLeader.set(speed);
+    rightLeader.set(-speed);
   }
 
   @Override

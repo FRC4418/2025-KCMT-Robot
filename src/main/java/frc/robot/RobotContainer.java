@@ -52,6 +52,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new AutoForward(0.5, 1.0, m_drivetrain);
+    return new AutoForward(0.5, 1.5, m_drivetrain);
   }
 }
